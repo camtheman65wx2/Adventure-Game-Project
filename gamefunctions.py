@@ -31,6 +31,9 @@ def purchase_item(itemPrice, startingMoney, quantityToPurchase=1):
 
     Returns:
     The number of items purchased and the remaining money after the purchase.
+
+    Example:
+    purchase_item(10, 100, 5)
     """
     # Find if the wanted quantity is more than what is affordable, if it is, buy as much as they can afford
     if itemPrice * quantityToPurchase > startingMoney:
@@ -52,6 +55,9 @@ def random_monster():
 
     Returns:
     A dictionary containing the monster's name, description, health, power, and money.
+
+    Example:
+    monster = random_monster()
     """
     # Create a list of monster names and descriptions
     names = ['Goblin', 'Dragon', 'Ogre', 'Troll']
@@ -92,6 +98,9 @@ def print_welcome(name, width=20):
 
     Returns:
     Nothing, but prints the welcome message.
+
+    Example:
+    print_welcome('Cameron')
     """
     string_to_print = f'Hello, {name}!'
     print(f'{string_to_print:^{width}}')
