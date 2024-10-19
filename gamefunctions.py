@@ -1,5 +1,20 @@
-# Cameron Seaman
-# gamefunctions.py
+"""Functions for the game, including purchasing items, generating random monsters, and printing messages.
+
+This module provides several functions to support the adventure game. These functions include purchasing items, generating random monsters, and printing welcome messages and shop menus.
+
+Functions:
+  - purchase_item: Purchase as many items as possible with the starting money, given the item price and quantity to purchase.
+  - new_random_monster: Generate a random monster with a name, description, health, power, and money.
+  - print_welcome: Print a centered welcome message using the provided name and width.
+  - print_shop_menu: Print a formatted shop menu using the provided item names and prices.
+
+Typical usage example:
+
+  quantityPurchased, remainingMoney = purchase_item(10, 100, 5)
+  myMonster = new_random_monster()
+  print_welcome('Cameron')
+  print_shop_menu('Egg', 1, 'Pear', 12.34)
+"""
 
 # Import the random module for the new_random_monster function
 import random
@@ -26,14 +41,6 @@ def purchase_item(itemPrice, startingMoney, quantityToPurchase=1):
         quantityPurchased = quantityToPurchase
         remainingMoney = startingMoney - (itemPrice * quantityToPurchase)
     return quantityPurchased, remainingMoney
-
-# Print proof of code functionality for purchase_item function
-quantityPurchased, remainingMoney = purchase_item(10, 100, 5)
-print(f'You purchased {quantityPurchased} items and have ${remainingMoney} left.')
-quantityPurchased, remainingMoney = purchase_item(10, 100, 12)
-print(f'You purchased {quantityPurchased} items and have ${remainingMoney} left.')
-quantityPurchased, remainingMoney = purchase_item(10, 100, 10)
-print(f'You purchased {quantityPurchased} items and have ${remainingMoney} left.')
 
 # Define new_random_monster function
 def new_random_monster():
@@ -74,31 +81,6 @@ def new_random_monster():
     myMonster = {'name': name,'description': description, 'health': health, 'power': power, 'money': money}
     return myMonster
 
-# Print proof of code functionality for new_random_monster function, printing 3 random monsters
-myMonster = new_random_monster()
-print('First Monster:')
-print(f"Name: {myMonster['name']}")
-print(f"Description: {myMonster['description']}")
-print(f"Health: {myMonster['health']}")
-print(f"Power: {myMonster['power']}")
-print(f"Money: {myMonster['money']}")
-
-myMonster = new_random_monster()
-print('Second Monster:')
-print(f"Name: {myMonster['name']}")
-print(f"Description: {myMonster['description']}")
-print(f"Health: {myMonster['health']}")
-print(f"Power: {myMonster['power']}")
-print(f"Money: {myMonster['money']}")
-
-myMonster = new_random_monster()
-print('Third Monster:')
-print(f"Name: {myMonster['name']}")
-print(f"Description: {myMonster['description']}")
-print(f"Health: {myMonster['health']}")
-print(f"Power: {myMonster['power']}")
-print(f"Money: {myMonster['money']}")
-
 # Define print_welcome function
 def print_welcome(name, width=20):
     """
@@ -113,11 +95,6 @@ def print_welcome(name, width=20):
     """
     string_to_print = f'Hello, {name}!'
     print(f'{string_to_print:^{width}}')
-
-# Proof of code functionality for print_welcome function
-print_welcome('Cameron')
-print_welcome('Cam')
-print_welcome('Lilly')
 
 # Define print_shop_menu function
 def print_shop_menu(item1Name, item1Price, item2Name, item2Price):
@@ -140,9 +117,44 @@ def print_shop_menu(item1Name, item1Price, item2Name, item2Price):
     print(f'| {item2Name:<12}{price2:>8} |')
     print('\\----------------------/')
 
-# Proof of code functionality for print_shop_menu function
-print_shop_menu('Egg', 1, 'Pear', 12.34)
-print_shop_menu('Apple', 1.23, 'Banana', 0.23)
-print_shop_menu('Orange', 2.23, 'Grape', 3.23456)
+if __name__ == '__main__':
+    # Print proof of code functionality for purchase_item function
+    quantityPurchased, remainingMoney = purchase_item(10, 100, 5)
+    print(f'You purchased {quantityPurchased} items and have ${remainingMoney} left.')
+    quantityPurchased, remainingMoney = purchase_item(10, 100, 12)
+    print(f'You purchased {quantityPurchased} items and have ${remainingMoney} left.')
+    quantityPurchased, remainingMoney = purchase_item(10, 100, 10)
+    print(f'You purchased {quantityPurchased} items and have ${remainingMoney} left.')
+    # Print proof of code functionality for new_random_monster function, printing 3 random monsters
+    myMonster = new_random_monster()
+    print('First Monster:')
+    print(f"Name: {myMonster['name']}")
+    print(f"Description: {myMonster['description']}")
+    print(f"Health: {myMonster['health']}")
+    print(f"Power: {myMonster['power']}")
+    print(f"Money: {myMonster['money']}")
 
+    myMonster = new_random_monster()
+    print('Second Monster:')
+    print(f"Name: {myMonster['name']}")
+    print(f"Description: {myMonster['description']}")
+    print(f"Health: {myMonster['health']}")
+    print(f"Power: {myMonster['power']}")
+    print(f"Money: {myMonster['money']}")
+
+    myMonster = new_random_monster()
+    print('Third Monster:')
+    print(f"Name: {myMonster['name']}")
+    print(f"Description: {myMonster['description']}")
+    print(f"Health: {myMonster['health']}")
+    print(f"Power: {myMonster['power']}")
+    print(f"Money: {myMonster['money']}")
+    # Proof of code functionality for print_welcome function
+    print_welcome('Cameron')
+    print_welcome('Cam')
+    print_welcome('Lilly')
+    # Proof of code functionality for print_shop_menu function
+    print_shop_menu('Egg', 1, 'Pear', 12.34)
+    print_shop_menu('Apple', 1.23, 'Banana', 0.23)
+    print_shop_menu('Orange', 2.23, 'Grape', 3.23456)
 # End of Program
