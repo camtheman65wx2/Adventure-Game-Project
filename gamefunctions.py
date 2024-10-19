@@ -4,19 +4,19 @@ This module provides several functions to support the adventure game. These func
 
 Functions:
   - purchase_item: Purchase as many items as possible with the starting money, given the item price and quantity to purchase.
-  - new_random_monster: Generate a random monster with a name, description, health, power, and money.
+  - random_monster: Generate a random monster with a name, description, health, power, and money.
   - print_welcome: Print a centered welcome message using the provided name and width.
   - print_shop_menu: Print a formatted shop menu using the provided item names and prices.
 
 Typical usage example:
 
   quantityPurchased, remainingMoney = purchase_item(10, 100, 5)
-  myMonster = new_random_monster()
+  myMonster = random_monster()
   print_welcome('Cameron')
   print_shop_menu('Egg', 1, 'Pear', 12.34)
 """
 
-# Import the random module for the new_random_monster function
+# Import the random module for the random_monster function
 import random
 
 # Define purchase_item function
@@ -42,8 +42,8 @@ def purchase_item(itemPrice, startingMoney, quantityToPurchase=1):
         remainingMoney = startingMoney - (itemPrice * quantityToPurchase)
     return quantityPurchased, remainingMoney
 
-# Define new_random_monster function
-def new_random_monster():
+# Define random_monster function
+def random_monster():
     """
     Generate a random monster with a name, description, health, power, and money.
 
@@ -125,8 +125,8 @@ if __name__ == '__main__':
     print(f'You purchased {quantityPurchased} items and have ${remainingMoney} left.')
     quantityPurchased, remainingMoney = purchase_item(10, 100, 10)
     print(f'You purchased {quantityPurchased} items and have ${remainingMoney} left.')
-    # Print proof of code functionality for new_random_monster function, printing 3 random monsters
-    myMonster = new_random_monster()
+    # Print proof of code functionality for random_monster function, printing 3 random monsters
+    myMonster = random_monster()
     print('First Monster:')
     print(f"Name: {myMonster['name']}")
     print(f"Description: {myMonster['description']}")
@@ -134,7 +134,7 @@ if __name__ == '__main__':
     print(f"Power: {myMonster['power']}")
     print(f"Money: {myMonster['money']}")
 
-    myMonster = new_random_monster()
+    myMonster = random_monster()
     print('Second Monster:')
     print(f"Name: {myMonster['name']}")
     print(f"Description: {myMonster['description']}")
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     print(f"Power: {myMonster['power']}")
     print(f"Money: {myMonster['money']}")
 
-    myMonster = new_random_monster()
+    myMonster = random_monster()
     print('Third Monster:')
     print(f"Name: {myMonster['name']}")
     print(f"Description: {myMonster['description']}")
