@@ -126,6 +126,27 @@ def print_shop_menu(item1Name, item1Price, item2Name, item2Price):
     print(f'| {item2Name:<12}{price2:>8} |')
     print('\\----------------------/')
 
+def print_user_menu(username, monster):
+    """
+    Print the user menu for the game, including the user's health and money. Allows the user to choose between fighting a monster, sleeping to restore health, or quitting the game.
+
+    Parameters:
+    username (str): The name of the user playing the game
+    monster (dict): The dictionary containing the monster's health and money
+
+    Returns:
+    The user's choice for the game
+    """
+    print(f'Current HP: {monster["health"]}')
+    print(f'Current Gold: {monster["money"]}')
+    print(f'{username}, what would you like to do?')
+    print()
+    print('1) Fight Monster')
+    print('2) Sleep (5 Gold, restores 10 HP)')
+    print('3) Quit')
+    option = input('Enter your choice: ')
+    return option
+
 if __name__ == '__main__':
     # Print proof of code functionality for purchase_item function
     quantityPurchased, remainingMoney = purchase_item(10, 100, 5)
