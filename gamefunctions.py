@@ -172,8 +172,8 @@ def fight_monster(monster):
         print('2) Run')
         choice = input('What\'s your next move: ')
         if choice == '1':
-            print('You attack the enemy!')
             damageEnemy = math.floor(monster["power"] * random.random())
+            print(f'You attack the enemy for {damageEnemy} damage!')
             enemy["health"] -= damageEnemy
             if enemy["health"] <= 0:
                 enemy["health"] = 0
@@ -195,9 +195,10 @@ def fight_monster(monster):
             print('You dropped some gold while running away.')
             monster["money"] -= random.randint(1, 10)
             return monster
+        else:
+            print('Invalid choice. Please try again.')
     if monster["health"] <= 0:
         print('You were defeated!')
-        print('You lose half of your gold.')
         monster["money"] = monster["money"] // 2
         print(f'Respawning as a new monster...')
         time.sleep(2)
@@ -224,6 +225,7 @@ def sleep(monster):
         print('You sleep and gain 10 HP.')
         monster["health"] += 10
         monster["money"] -= 5
+        time.sleep(1)
     else:
         print('You do not have enough gold to sleep.')
     return monster
