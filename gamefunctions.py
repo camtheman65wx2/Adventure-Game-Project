@@ -160,6 +160,7 @@ def fight_monster(monster):
     The updated monster dictionary after the fight
     """
     enemy = random_monster()
+    print()
     print(f'A {enemy["name"]} appears!')
     print(f'{enemy["description"]}')
     print()
@@ -174,6 +175,8 @@ def fight_monster(monster):
             print('You attack the enemy!')
             damageEnemy = math.floor(monster["power"] * random.random())
             enemy["health"] -= damageEnemy
+            if enemy["health"] <= 0:
+                enemy["health"] = 0
             print(f'Enemy HP: {enemy["health"]}')
             time.sleep(1)
             if enemy["health"] > 0:
@@ -181,6 +184,8 @@ def fight_monster(monster):
                 print(f'The enemy attacks you for {damage} damage!')
                 time.sleep(1)
                 monster["health"] -= damage
+                if monster["health"] <= 0:
+                    monster["health"] = 0
                 print()
                 print(f'Your HP: {monster["health"]}')
                 print(f'Enemy HP: {enemy["health"]}')
