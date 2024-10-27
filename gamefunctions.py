@@ -18,6 +18,8 @@ Typical usage example:
 
 # Import the random module for the random_monster function
 import random
+import time
+import math
 
 # Define purchase_item function
 def purchase_item(itemPrice, startingMoney, quantityToPurchase=1):
@@ -146,6 +148,80 @@ def print_user_menu(username, monster):
     print('3) Quit')
     option = input('Enter your choice: ')
     return option
+
+def fight_monster(monster):
+    """
+    Fight the monster in the game. The player's health and money will be updated based on the outcome of the fight.
+
+    Parameters:
+    monster (dict): The dictionary containing the monster's health and power
+
+    Returns:
+    The updated monster dictionary after the fight
+    """
+    enemy = random_monster()
+    print(f'A {enemy["name"]} appears!')
+    print(f'{enemy["description"]}')
+    print()
+    print(f'Your HP: {monster["health"]}')
+    print(f'Enemy HP: {enemy["health"]}')
+    print()
+    while monster["health"] > 0 and enemy["health"] > 0:
+        print('1) Attack')
+        print('2) Run')
+        choice = input('What\'s your next move: ')
+        if choice == '1':
+            print('You attack the enemy!')
+            damageEnemy = math.floor(monster["power"] * random.random())
+            enemy["health"] -= damageEnemy
+            print(f'Enemy HP: {enemy["health"]}')
+            time.sleep(1)
+            if enemy["health"] > 0:
+                damage = math.floor(enemy["power"] * random.random())
+                print(f'The enemy attacks you for {damage} damage!')
+                time.sleep(1)
+                monster["health"] -= damage
+                print()
+                print(f'Your HP: {monster["health"]}')
+                print(f'Enemy HP: {enemy["health"]}')
+                print()
+        elif choice == '2':
+            print('You run away!')
+            print('You dropped some gold while running away.')
+            monster["money"] -= random.randint(1, 10)
+            return monster
+    if monster["health"] <= 0:
+        print('You were defeated!')
+        print('You lose half of your gold.')
+        monster["money"] = monster["money"] // 2
+        print(f'Respawning as a new monster...')
+        time.sleep(2)
+        monster = random_monster()
+        print(f'You respawned as a {monster["name"]}')
+        return monster
+    elif enemy["health"] <= 0:
+        print('You defeated the enemy!')
+        print('You gain some gold.')
+        monster["money"] += enemy["money"]
+        return monster
+
+def sleep(monster):
+    """
+    Sleep in the game to restore health. The player's health and money will be updated based on the outcome of sleeping.
+
+    Parameters:
+    monster (dict): The dictionary containing the monster's health and money
+
+    Returns:
+    The updated monster dictionary after sleeping
+    """
+    if monster["money"] >= 5:
+        print('You sleep and gain 10 HP.')
+        monster["health"] += 10
+        monster["money"] -= 5
+    else:
+        print('You do not have enough gold to sleep.')
+    return monster
 
 if __name__ == '__main__':
     # Print proof of code functionality for purchase_item function
