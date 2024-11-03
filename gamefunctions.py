@@ -194,6 +194,8 @@ def fight_monster(monster):
             print('You run away!')
             print('You dropped some gold while running away.')
             monster["money"] -= random.randint(1, 10)
+            if monster["money"] < 0:
+                monster["money"] = 0
             return monster
         else:
             print('Invalid choice. Please try again.')
