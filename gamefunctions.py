@@ -313,20 +313,29 @@ def fight_monster(monster):
             else:
                 print('You have no weapon to use.')
         elif choice == '4':
-            potion = next((item for item in monster["inventory"] if item["name"] == "Potion"), None)
-            if potion:
-                print('You used a Potion!')
-                time.sleep(1)
-                print()
-                print('The potion grants you the power to defeat the enemy in one strike!')
-                print()
-                time.sleep(1)
-                enemy["health"] = 0
-                monster["inventory"].remove(potion)
+            consumables = [item for item in monster["inventory"] if item["type"] == "consumable"]
+            if consumables:
+                print('Choose a consumable to use:')
+                for idx, consumable in enumerate(consumables):
+                    print(f'{idx + 1}) {consumable["name"]}')
+                consumable_choice = input('Enter the number of the consumable you want to use: ')
+                if consumable_choice.isdigit() and 1 <= int(consumable_choice) <= len(consumables):
+                    if consumables[int(consumable_choice) - 1]["name"] == "Potion":
+                        print('You used a Potion!')
+                        print('This grants you the ability to defeat your enemy in one strike!')
+                        print()
+                        print('You attack the enemy for full damage!')
+                        print()
+                        time.sleep(1)
+                        enemy["health"] = 0
+                        monster["inventory"].remove(consumables[int(consumable_choice) - 1])
+                    else:
+                        print('This has not been implemented yet.')
+                        # TODO: Implement other consumables as needed in future
+                else:
+                    print('Invalid choice.')
             else:
-                print('You have no Potion to use.')
-        else:
-            print('Invalid choice. Please try again.')
+                print('You have no consumable to use.')
 
     if monster["health"] <= 0:
         print('You were defeated!')
