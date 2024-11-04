@@ -253,8 +253,8 @@ def fight_monster(monster):
     while monster["health"] > 0 and enemy["health"] > 0:
         print('1) Attack')
         print('2) Run')
-        print('3) Use Sword')
-        print('4) Use Potion')
+        print('3) Use Weapon')
+        print('4) Use Consumable')
         choice = input('What\'s your next move: ')
         if choice == '1':
             base_damage = monster["power"]
@@ -290,20 +290,28 @@ def fight_monster(monster):
                 monster["money"] = 0
             return monster
         elif choice == '3':
-            sword = next((item for item in monster["inventory"] if item["name"] == "Sword"), None)
-            if sword:
-                print('You wield the Sword to increase your attack damage!')
-                weapon_used = True
-                sword['currentDurability'] -= 10
-                if sword['currentDurability'] <= 0:
-                    print()
-                    print('Your Sword will break after your next move!')
-                    print()
-                    monster["inventory"].remove(sword)
+            weapons = [item for item in monster["inventory"] if item["type"] == "weapon"]
+            if weapons:
+                print('Choose a weapon to use:')
+                for idx, weapon in enumerate(weapons):
+                    print(f'{idx + 1}) {weapon["name"]} (Durability: {weapon["currentDurability"]}/{weapon["maxDurability"]})')
+                weapon_choice = input('Enter the number of the weapon you want to use: ')
+                if weapon_choice.isdigit() and 1 <= int(weapon_choice) <= len(weapons):
+                    weapon = weapons[int(weapon_choice) - 1]
+                    print(f'You wield the {weapon["name"]} to increase your attack damage!')
+                    weapon_used = True
+                    weapon['currentDurability'] -= 10
+                    if weapon['currentDurability'] <= 0:
+                        print()
+                        print(f'Your {weapon["name"]} will break after your next move!')
+                        print()
+                        monster["inventory"].remove(weapon)
+                    else:
+                        print(f'{weapon["name"]} durability: {weapon["currentDurability"]}/{weapon["maxDurability"]}')
                 else:
-                    print(f'Sword durability: {sword["currentDurability"]}/{sword["maxDurability"]}')
+                    print('Invalid choice.')
             else:
-                print('You have no Sword to use.')
+                print('You have no weapon to use.')
         elif choice == '4':
             potion = next((item for item in monster["inventory"] if item["name"] == "Potion"), None)
             if potion:
