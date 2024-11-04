@@ -10,10 +10,10 @@ def game():
     gamefunctions.print_welcome(username)
     print()
     option = gamefunctions.print_user_menu(username, monster)
-    while option != '1' and option != '2' and option != '3' and option != '4':
+    while option != '1' and option != '2' and option != '3' and option != '4' and option != '5':
         print('Invalid option. Please try again.')
         option = gamefunctions.print_user_menu(username, monster)
-    while option != '4':
+    while option != '5':
         if option == '1':
             monster = gamefunctions.fight_monster(monster)
             option = gamefunctions.print_user_menu(username, monster)
@@ -22,6 +22,9 @@ def game():
             option = gamefunctions.print_user_menu(username, monster)
         elif option == '3':
             monster = gamefunctions.shop_menu(monster)
+            option = gamefunctions.print_user_menu(username, monster)
+        elif option == '4':
+            gamefunctions.view_inventory(monster)
             option = gamefunctions.print_user_menu(username, monster)
         else:
             print('Invalid option. Please try again.')

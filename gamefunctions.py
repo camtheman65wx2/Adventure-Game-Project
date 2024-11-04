@@ -373,6 +373,30 @@ def sleep(monster):
         print('You do not have enough gold to sleep.')
     return monster
 
+def view_inventory(monster):
+    """
+    View the inventory of the monster in the game.
+
+    Parameters:
+    monster (dict): The dictionary containing the monster's inventory
+
+    Returns:
+    None, but prints the items in the monster's inventory
+    """
+    print('Inventory:')
+    if monster["inventory"]:
+        for item in monster["inventory"]:
+            if item["type"] == "weapon":
+                print(f'{item["name"]} (Weapon) - Durability: {item["currentDurability"]}/{item["maxDurability"]} - Adds extra damage to attacks')
+            elif item["type"] == "consumable":
+                if item["name"] == "Potion":
+                    print(f'{item["name"]} (Consumable) - Defeat your enemy in one strike.')
+    else:
+        print('Your inventory is empty.')
+    print('Press any key to continue...')
+    input()
+
+
 if __name__ == '__main__':
     # Print proof of code functionality for purchase_item function
     quantityPurchased, remainingMoney = purchase_item(10, 100, 5)
