@@ -56,7 +56,7 @@ def random_monster():
     None
 
     Returns:
-    A dictionary containing the monster's name, description, health, power, and money.
+    A dictionary containing the monster's name, description, health, power, and money, as well as base inventory.
 
     Example:
     monster = random_monster()
@@ -86,7 +86,7 @@ def random_monster():
         power = random.randint(15, 30)
         money = random.randint(20, 100)
     # define the dictionary to return later
-    myMonster = {'name': name,'description': description, 'health': health, 'power': power, 'money': money}
+    myMonster = {'name': name,'description': description, 'health': health, 'power': power, 'money': money, 'inventory': []}
     return myMonster
 
 # Define print_welcome function
