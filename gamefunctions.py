@@ -124,7 +124,7 @@ def print_welcome(name, width=20):
     string_to_print = f'Hello, {name}!'
     print(f'{string_to_print:^{width}}')
 
-# Define print_shop_menu function
+# Define shop_menu function
 def print_shop_menu(item1Name, item1Price, item2Name, item2Price):
     """
     Prints a formatted shop menu using the provided item names and prices.
@@ -145,6 +145,68 @@ def print_shop_menu(item1Name, item1Price, item2Name, item2Price):
     print(f'| {item2Name:<12}{price2:>8} |')
     print('\\----------------------/')
 
+
+
+def shop_menu(monster):
+    items = [
+        {'name': 'Sword', 'type': 'weapon', 'price': 15, 'power': 10, 'maxDurability': 100, 'currentDurability': 40},
+        {'name': 'Potion', 'type': 'consumable', 'price': 100},
+        {'name': 'Shield', 'type': 'armor', 'price': 20, 'maxDurability': 50, 'currentDurability': 50},
+    ]
+    while True:
+        print('/----------------------\\')
+        for itemid, item in enumerate(items):
+            price = f'${item["price"]:.2f}'
+            print(f'| {itemid + 1}) {item["name"]:<9}{price:>8} |')
+        print('\\----------------------/')
+        print('0) Exit Shop')
+
+        choice = input('Enter the number of the item you want to purchase (or 0 to exit shop): ')
+
+        while not choice.isdigit() or int(choice) < 1 or int(choice) > len(items):
+            if choice == '0':
+                print('Exiting shop...')
+                time.sleep(1)
+                print()
+                print()
+                return monster
+            print('Invalid choice, please try again.')
+            choice = input('Enter the number of the item you want to purchase (or 0 to exit shop): ')
+
+        choice = int(choice) - 1
+        if choice >= 0 and choice < len(items):
+            item = items[choice]
+            quantity = input(f'How many {item["name"]}s would you like to purchase? (or 0 to exit shop): ')
+            if quantity.isdigit():
+                if int(quantity) == 0:
+                    print('Exiting shop...')
+                    print()
+                    time.sleep(1)
+                    return monster
+                quantity = int(quantity)
+                quantityPurchased, remainingMoney = purchase_item(item['price'], monster['money'], quantity)
+                if quantityPurchased > 0:
+                    print('Purchasing...')
+                    time.sleep(2)
+                    monster['money'] = remainingMoney
+                    for number in range(quantityPurchased):
+                        monster['inventory'] = add_item_to_inventory(monster['inventory'], item.copy())
+                    print(f'You purchased {quantityPurchased} {item["name"]}(s).')
+                    print()
+                    time.sleep(1)
+                else:
+                    print('You do not have enough money to make this purchase.')
+                    time.sleep(1)
+                    print()
+                    print('Exiting shop...')
+                    print()
+                    time.sleep(1)
+            else:
+                print('Invalid input. Please enter a number.')
+        else:
+            print('Invalid choice. Please try again.')
+        return monster
+
 def print_user_menu(username, monster):
     """
     Print the user menu for the game, including the user's health and money. Allows the user to choose between fighting a monster, sleeping to restore health, or quitting the game.
@@ -162,7 +224,10 @@ def print_user_menu(username, monster):
     print()
     print('1) Fight Monster')
     print('2) Sleep (5 Gold, restores 10 HP)')
-    print('3) Quit')
+    print('3) Visit Shop')
+    print()
+    print('4) Quit')
+    print()
     option = input('Enter your choice: ')
     return option
 
@@ -285,8 +350,4 @@ if __name__ == '__main__':
     print_welcome('Cameron')
     print_welcome('Cam')
     print_welcome('Lilly')
-    # Proof of code functionality for print_shop_menu function
-    print_shop_menu('Egg', 1, 'Pear', 12.34)
-    print_shop_menu('Apple', 1.23, 'Banana', 0.23)
-    print_shop_menu('Orange', 2.23, 'Grape', 3.23456)
 # End of Program
