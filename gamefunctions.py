@@ -149,9 +149,8 @@ def print_shop_menu(item1Name, item1Price, item2Name, item2Price):
 
 def shop_menu(monster):
     items = [
-        {'name': 'Sword', 'type': 'weapon', 'price': 15, 'power': 10, 'maxDurability': 100, 'currentDurability': 40},
+        {'name': 'Sword', 'type': 'weapon', 'price': 15, 'power': 10, 'maxDurability': 100, 'currentDurability': random.randint(30, 100)},
         {'name': 'Potion', 'type': 'consumable', 'price': 100},
-        {'name': 'Shield', 'type': 'armor', 'price': 20, 'maxDurability': 50, 'currentDurability': 50},
     ]
     while True:
         print('/----------------------\\')
@@ -249,14 +248,25 @@ def fight_monster(monster):
     print(f'Your HP: {monster["health"]}')
     print(f'Enemy HP: {enemy["health"]}')
     print()
+    weapon_used = False
+
     while monster["health"] > 0 and enemy["health"] > 0:
         print('1) Attack')
         print('2) Run')
+        print('3) Use Sword')
+        print('4) Use Potion')
         choice = input('What\'s your next move: ')
         if choice == '1':
-            damageEnemy = math.floor(monster["power"] * random.random())
-            print(f'You attack the enemy for {damageEnemy} damage!')
-            enemy["health"] -= damageEnemy
+            base_damage = monster["power"]
+            if weapon_used:
+                base_damage += 20
+                print('You swing your sword with increased power!')
+                weapon_used = False
+                damage_enemy = math.floor(base_damage * random.uniform(0.8, 1.2))
+            else:
+                damage_enemy = math.floor(base_damage * random.uniform(0.3, 0.8))
+            print(f'You attack the enemy for {damage_enemy} damage!')
+            enemy["health"] -= damage_enemy
             if enemy["health"] <= 0:
                 enemy["health"] = 0
             print(f'Enemy HP: {enemy["health"]}')
@@ -279,21 +289,52 @@ def fight_monster(monster):
             if monster["money"] < 0:
                 monster["money"] = 0
             return monster
+        elif choice == '3':
+            sword = next((item for item in monster["inventory"] if item["name"] == "Sword"), None)
+            if sword:
+                print('You wield the Sword to increase your attack damage!')
+                weapon_used = True
+                sword['currentDurability'] -= 10
+                if sword['currentDurability'] <= 0:
+                    print()
+                    print('Your Sword will break after your next move!')
+                    print()
+                    monster["inventory"].remove(sword)
+                else:
+                    print(f'Sword durability: {sword["currentDurability"]}/{sword["maxDurability"]}')
+            else:
+                print('You have no Sword to use.')
+        elif choice == '4':
+            potion = next((item for item in monster["inventory"] if item["name"] == "Potion"), None)
+            if potion:
+                print('You used a Potion!')
+                time.sleep(1)
+                print()
+                print('The potion grants you the power to defeat the enemy in one strike!')
+                print()
+                time.sleep(1)
+                enemy["health"] = 0
+                monster["inventory"].remove(potion)
+            else:
+                print('You have no Potion to use.')
         else:
             print('Invalid choice. Please try again.')
+
     if monster["health"] <= 0:
         print('You were defeated!')
         monster["money"] = monster["money"] // 2
-        print(f'Respawning as a new monster...')
+        print('Respawning as a new monster...')
         time.sleep(2)
         monster = random_monster()
         print(f'You respawned as a {monster["name"]}')
-        return monster
     elif enemy["health"] <= 0:
+        time.sleep(1)
+        print()
         print('You defeated the enemy!')
         print('You gain some gold.')
+        time.sleep(1)
         monster["money"] += enemy["money"]
-        return monster
+    return monster
 
 def sleep(monster):
     """
