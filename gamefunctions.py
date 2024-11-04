@@ -224,8 +224,9 @@ def print_user_menu(username, monster):
     print('1) Fight Monster')
     print('2) Sleep (5 Gold, restores 10 HP)')
     print('3) Visit Shop')
+    print('4) View Inventory')
     print()
-    print('4) Quit')
+    print('5) Quit')
     print()
     option = input('Enter your choice: ')
     return option
