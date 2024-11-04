@@ -387,6 +387,7 @@ def view_inventory(monster):
     if monster["inventory"]:
         for item in monster["inventory"]:
             if item["type"] == "weapon":
+                # TODO: Add other weapon types as needed in future, similar to consumables
                 print(f'{item["name"]} (Weapon) - Durability: {item["currentDurability"]}/{item["maxDurability"]} - Adds extra damage to attacks')
             elif item["type"] == "consumable":
                 if item["name"] == "Potion":
