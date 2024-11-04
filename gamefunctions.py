@@ -307,7 +307,7 @@ def fight_monster(monster):
                         print()
                         monster["inventory"].remove(weapon)
                     else:
-                        print(f'{weapon["name"]} durability: {weapon["currentDurability"]}/{weapon["maxDurability"]}')
+                        print(f'New Durability of {weapon["name"]}: {weapon["currentDurability"]}/{weapon["maxDurability"]}')
                 else:
                     print('Invalid choice.')
             else:
