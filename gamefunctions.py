@@ -47,6 +47,23 @@ def purchase_item(itemPrice, startingMoney, quantityToPurchase=1):
         remainingMoney = startingMoney - (itemPrice * quantityToPurchase)
     return quantityPurchased, remainingMoney
 
+def add_item_to_inventory(inventory, item):
+    """
+    Add an item to the inventory list.
+
+    Parameters:
+    inventory (list): The dictionary of items in the inventory.
+    item (dict): The item to add to the inventory.
+
+    Returns:
+    The updated inventory list with the new item added.
+
+    Example:
+    monster["inventory"] = add_item_to_inventory(inventory, item)
+    """
+    inventory.append(item)
+    return inventory
+
 # Define random_monster function
 def random_monster():
     """
