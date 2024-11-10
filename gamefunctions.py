@@ -20,6 +20,27 @@ Typical usage example:
 import random
 import time
 import math
+import json
+
+def save_game(monster, username):
+    """
+    Save the game state to a JSON file for use in future game sessions.
+
+    Parameters:
+    monster (dict): The dictionary containing the monster's information
+    username (str): The name of the user playing the game
+
+    Returns:
+    None
+    """
+    filename = f'game_save_data.json'
+    game_data = {
+        'username': username,
+        'monster': monster
+    }
+    with open(filename, 'w') as file:
+        json.dump(game_data, file, indent=4)
+    print('Game saved successfully.')
 
 # Define purchase_item function
 def purchase_item(itemPrice, startingMoney, quantityToPurchase=1):
@@ -226,7 +247,8 @@ def print_user_menu(username, monster):
     print('3) Visit Shop')
     print('4) View Inventory')
     print()
-    print('5) Quit')
+    print('5) Save Game')
+    print('6) Quit')
     print()
     option = input('Enter your choice: ')
     return option
