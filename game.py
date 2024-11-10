@@ -4,10 +4,21 @@
 import gamefunctions
 
 def game():
-    print('Welcome to the adventure game!')
-    username = input('Enter your name to get started: ')
-    monster = gamefunctions.random_monster()
-    gamefunctions.print_welcome(username)
+    preGameChoice = gamefunctions.pregame_menu()
+    while preGameChoice != '1' and preGameChoice != '2':
+        print('Invalid option. Please try again.')
+        preGameChoice = gamefunctions.pregame_menu()
+    if preGameChoice == '1':
+        username = input('Enter your name to get started: ')
+        monster = gamefunctions.random_monster()
+        gamefunctions.print_welcome(username)
+    elif preGameChoice == '2':
+        monster, username = gamefunctions.load_game()
+        if monster is None or username is None:
+            print('No saved game found. Starting a new game.')
+            username = input('Enter your name to get started: ')
+            monster = gamefunctions.random_monster()
+        gamefunctions.print_welcome(username)
     print()
     option = gamefunctions.print_user_menu(username, monster)
     while option != '1' and option != '2' and option != '3' and option != '4' and option != '5' and option != '6':
