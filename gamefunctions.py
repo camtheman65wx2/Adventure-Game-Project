@@ -21,6 +21,7 @@ import random
 import time
 import math
 import json
+import os
 
 def save_game(monster, username):
     """
@@ -33,14 +34,55 @@ def save_game(monster, username):
     Returns:
     None
     """
-    filename = f'game_save_data.json'
+    filename = 'game_save_data.json'
     game_data = {
         'username': username,
         'monster': monster
     }
     with open(filename, 'w') as file:
         json.dump(game_data, file, indent=4)
+        file.flush()
     print('Game saved successfully.')
+
+def load_game():
+    """
+    Load the game state from a JSON file.
+
+    Parameters:
+    username (str): The name of the user playing the game
+
+    Returns:
+    The dictionary containing the monster's information and username if the game was loaded successfully, otherwise None
+    """
+    filename = 'game_save_data.json'
+    if os.path.exists(filename):
+        with open(filename, 'r') as file:
+            game_data = json.load(file)
+            monster = game_data['monster']
+            username = game_data['username']
+            print('Game loaded successfully.')
+            time.sleep(1)
+            return monster, username
+    else:
+        return None, None
+
+def pregame_menu():
+    """
+    Display the pregame menu for the game, allowing the user to start a new game or load a saved game.
+
+    Parameters:
+    None
+
+    Returns:
+    The user's choice for starting a new game or loading a saved game
+    """
+    print('Welcome to the adventure game!')
+    print()
+    print('1) Start New Game')
+    print('2) Load Saved Game')
+    print()
+    choice = input('Enter your choice: ')
+    return choice
 
 # Define purchase_item function
 def purchase_item(itemPrice, startingMoney, quantityToPurchase=1):
