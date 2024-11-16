@@ -47,7 +47,7 @@ def draw_square(screen, position):
 
 def handlemovement(key, position):
     if key == pygame.K_LEFT:
-        if position[1] > 0:
+        if position[0] > 0:
             position[0] -= 1
     elif key == pygame.K_RIGHT:
         if position[0] < gridSize - 1:
