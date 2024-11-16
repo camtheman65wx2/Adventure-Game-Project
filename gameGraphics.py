@@ -1,11 +1,20 @@
-"""Functions related to the graphics of the game
+"""
+Functions related to the graphics of the game
 
 This module contains functions that are used to display the game to the user.
 
 Functions:
+    - initwindow: Initializes the game window and returns the screen, clock, and initial position.
+    - draw_grid: Draws a grid on the given screen.
+    - draw_square: Draws a square on the given screen at the specified position.
+    - handlemovement: Handles the movement of the player based on the key pressed.
 
 Typical usage example:
-
+    screen, clock, position = initwindow()
+    while running:
+        draw_grid(screen)
+        draw_square(screen, position)
+        pygame.display.flip()
 """
 import pygame
 import sys
@@ -15,9 +24,12 @@ gridSize = 10
 cellSize = 32
 windowSize = gridSize * cellSize
 
-def initwindow():
+def init_window():
     """
     Initializes the game window and returns the screen, clock, and initial position.
+
+    Arguments:
+        None
 
     Returns:
         screen (pygame.Surface): The game screen.
@@ -36,16 +48,45 @@ def initwindow():
     return screen, clock, position
 
 def draw_grid(screen):
+    """
+    Draws a grid on the given screen.
+
+    Arguments:
+        screen (pygame.Surface): The game screen where the grid will be drawn.
+
+    Returns:
+        None
+    """
     for x in range(0, windowSize, cellSize):
         pygame.draw.line(screen, (0,0,0), (x, 0), (x, windowSize))
     for y in range(0, windowSize, cellSize):
         pygame.draw.line(screen, (0,0,0), (0, y), (windowSize, y))
 
 def draw_square(screen, position):
+    """
+    Draws a square on the given screen at the specified position.
+
+    Arguments:
+        screen (pygame.Surface): The game screen where the square will be drawn.
+        position (list): The position [x, y] where the square will be drawn.
+
+    Returns:
+        None
+    """
     rect = pygame.Rect(position[0] * cellSize, position[1] * cellSize, cellSize, cellSize)
     pygame.draw.rect(screen, (255,0,0), rect)
 
-def handlemovement(key, position):
+def handle_movement(key, position):
+    """
+    Handles the movement of the player based on the key pressed.
+
+    Arguments:
+        key (int): The key pressed by the user.
+        position (list): The current position of the player [x, y].
+
+    Returns:
+        None
+    """
     if key == pygame.K_LEFT:
         if position[0] > 0:
             position[0] -= 1
@@ -60,7 +101,7 @@ def handlemovement(key, position):
             position[1] += 1
 
 def main():
-    screen, clock, position = initwindow()
+    screen, clock, position = init_window()
 
     running = True
     while running:
@@ -72,7 +113,7 @@ def main():
                 if event.key == pygame.K_q:
                     running = False
                 elif event.key in [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]:
-                    handlemovement(event.key, position)
+                    handle_movement(event.key, position)
 
         screen.fill((255,255,255))
         draw_grid(screen)
