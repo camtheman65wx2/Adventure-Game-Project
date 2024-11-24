@@ -17,12 +17,28 @@ Typical usage example:
         pygame.display.flip()
 """
 import pygame
+import random
 import sys
 
 # Define constants
 gridSize = 10
 cellSize = 32
 windowSize = gridSize * cellSize
+
+class WanderingMonster:
+    def __init__(self):
+        self.position = [random.randint(0, gridSize - 1), random.randint(0, gridSize - 1)]
+
+    def move(self):
+        direction = random.choice(['left', 'right', 'up', 'down'])
+        if direction == 'left' and self.position[0] > 0:
+            self.position[0] -= 1
+        elif direction == 'right' and self.position[0] < gridSize - 1:
+            self.position[0] += 1
+        elif direction == 'up' and self.position[1] > 0:
+            self.position[1] -= 1
+        elif direction == 'down' and self.position[1] < gridSize - 1:
+            self.position[1] += 1
 
 def init_window():
     """
