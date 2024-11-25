@@ -284,18 +284,18 @@ def print_user_menu(username, monster):
     print(f'Current Gold: {monster["money"]}')
     print(f'{username}, what would you like to do?')
     print()
-    print('1) Fight Monster')
-    print('2) Sleep (5 Gold, restores 10 HP)')
-    print('3) Visit Shop')
-    print('4) View Inventory')
+    print('1) Sleep (5 Gold, restores 10 HP)')
+    print('2) Visit Shop')
+    print('3) View Inventory')
     print()
-    print('5) Save Game')
-    print('6) Quit')
+    print('4) Save Game')
+    print('5) Quit')
     print()
+    print('0) Return to Game')
     option = input('Enter your choice: ')
     return option
 
-def fight_monster(monster):
+def fight_monster(monster, enemymonster):
     """
     Fight the monster in the game. The player's health and money will be updated based on the outcome of the fight.
 
@@ -305,17 +305,17 @@ def fight_monster(monster):
     Returns:
     The updated monster dictionary after the fight
     """
-    enemy = random_monster()
+    enemy_monster = enemymonster
     print()
-    print(f'A {enemy["name"]} appears!')
-    print(f'{enemy["description"]}')
+    print(f'A {enemy_monster["name"]} appears!')
+    print(f'{enemy_monster["description"]}')
     print()
     print(f'Your HP: {monster["health"]}')
-    print(f'Enemy HP: {enemy["health"]}')
+    print(f'Enemy HP: {enemy_monster["health"]}')
     print()
     weapon_used = False
 
-    while monster["health"] > 0 and enemy["health"] > 0:
+    while monster["health"] > 0 and enemy_monster["health"] > 0:
         print('1) Attack')
         print('2) Run')
         print('3) Use Weapon')
@@ -331,13 +331,13 @@ def fight_monster(monster):
             else:
                 damage_enemy = math.floor(base_damage * random.uniform(0.3, 0.8))
             print(f'You attack the enemy for {damage_enemy} damage!')
-            enemy["health"] -= damage_enemy
-            if enemy["health"] <= 0:
-                enemy["health"] = 0
-            print(f'Enemy HP: {enemy["health"]}')
+            enemy_monster["health"] -= damage_enemy
+            if enemy_monster["health"] <= 0:
+                enemy_monster["health"] = 0
+            print(f'Enemy HP: {enemy_monster["health"]}')
             time.sleep(1)
-            if enemy["health"] > 0:
-                damage = math.floor(enemy["power"] * random.random())
+            if enemy_monster["health"] > 0:
+                damage = math.floor(enemy_monster["power"] * random.random())
                 print(f'The enemy attacks you for {damage} damage!')
                 time.sleep(1)
                 monster["health"] -= damage
@@ -345,7 +345,7 @@ def fight_monster(monster):
                     monster["health"] = 0
                 print()
                 print(f'Your HP: {monster["health"]}')
-                print(f'Enemy HP: {enemy["health"]}')
+                print(f'Enemy HP: {enemy_monster["health"]}')
                 print()
         elif choice == '2':
             print('You run away!')
@@ -353,7 +353,7 @@ def fight_monster(monster):
             monster["money"] -= random.randint(1, 10)
             if monster["money"] < 0:
                 monster["money"] = 0
-            return monster
+            return monster, enemy_monster
         elif choice == '3':
             weapons = [item for item in monster["inventory"] if item["type"] == "weapon"]
             if weapons:
@@ -392,7 +392,7 @@ def fight_monster(monster):
                         print('You attack the enemy for full damage!')
                         print()
                         time.sleep(1)
-                        enemy["health"] = 0
+                        enemy_monster["health"] = 0
                         monster["inventory"].remove(consumables[int(consumable_choice) - 1])
                     else:
                         print('This has not been implemented yet.')
@@ -409,14 +409,14 @@ def fight_monster(monster):
         time.sleep(2)
         monster = random_monster()
         print(f'You respawned as a {monster["name"]}')
-    elif enemy["health"] <= 0:
+    elif enemy_monster["health"] <= 0:
         time.sleep(1)
         print()
-        print('You defeated the enemy!')
+        print(f'You defeated the {enemy_monster["name"]}!')
         print('You gain some gold.')
         time.sleep(1)
-        monster["money"] += enemy["money"]
-    return monster
+        monster["money"] += enemy_monster["money"]
+    return monster, enemy_monster
 
 def sleep(monster):
     """
@@ -455,7 +455,7 @@ def view_inventory(monster):
                 print(f'{item["name"]} (Weapon) - Durability: {item["currentDurability"]}/{item["maxDurability"]} - Adds extra damage to attacks')
             elif item["type"] == "consumable":
                 if item["name"] == "Potion":
-                    print(f'{item["name"]} (Consumable) - Defeat your enemy in one strike.')
+                    print(f'{item["name"]} (Consumable) - Defeat your enemy_monster in one strike.')
     else:
         print('Your inventory is empty.')
     print('Press any key to continue...')

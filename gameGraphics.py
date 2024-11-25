@@ -20,6 +20,8 @@ import pygame
 import random
 import sys
 
+import gamefunctions
+
 # Define constants
 gridSize = 10
 cellSize = 32
@@ -28,6 +30,7 @@ windowSize = gridSize * cellSize
 class WanderingMonster:
     def __init__(self):
         self.position = [random.randint(0, gridSize - 1), random.randint(0, gridSize - 1)]
+        self.data = gamefunctions.random_monster()
 
     def move(self):
         direction = random.choice(['left', 'right', 'up', 'down'])
@@ -78,7 +81,7 @@ def draw_grid(screen):
     for y in range(0, windowSize, cellSize):
         pygame.draw.line(screen, (0,0,0), (0, y), (windowSize, y))
 
-def draw_square(screen, position):
+def draw_square(screen, position, color=(255,0,0)):
     """
     Draws a square on the given screen at the specified position.
 
@@ -90,7 +93,7 @@ def draw_square(screen, position):
         None
     """
     rect = pygame.Rect(position[0] * cellSize, position[1] * cellSize, cellSize, cellSize)
-    pygame.draw.rect(screen, (255,0,0), rect)
+    pygame.draw.rect(screen, color, rect)
 
 def handle_movement(key, position):
     """
@@ -115,11 +118,21 @@ def handle_movement(key, position):
     elif key == pygame.K_DOWN:
         if position[1] < gridSize - 1:
             position[1] += 1
+running = True
+def main(monsters):
+    """
+    Main function to run the game.
 
-def main():
+    Parameters:
+        monsters: list of WanderingMonster objects to be displayed on the screen
+
+    Returns:
+        A tuple containing a flag ('f' or 'm' for example) and the monster object if it is needed.
+    """
     screen, clock, position = init_window()
 
-    running = True
+    move_counter = 0
+    global running
     while running:
         clock.tick(30)
         for event in pygame.event.get():
@@ -128,12 +141,24 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_q:
                     running = False
+                elif event.key == pygame.K_m:
+                    running = False
+                    return 'm', None
                 elif event.key in [pygame.K_LEFT, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]:
                     handle_movement(event.key, position)
+                    move_counter += 1
+                    if move_counter % 2 == 0:
+                        for monster in monsters:
+                            monster.move()
+        for monster in monsters:
+            if position == monster.position:
+                return 'f', monster
 
         screen.fill((255,255,255))
         draw_grid(screen)
-        draw_square(screen, position)
+        draw_square(screen, position, (0,0,255))
+        for monster in monsters:
+            draw_square(screen, monster.position)
         pygame.display.flip()
 
     pygame.quit()

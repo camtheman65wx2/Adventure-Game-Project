@@ -2,6 +2,7 @@
 # game.py
 
 import gamefunctions
+import gameGraphics
 
 def game():
     preGameChoice = gamefunctions.pregame_menu()
@@ -20,30 +21,45 @@ def game():
             monster = gamefunctions.random_monster()
         gamefunctions.print_welcome(username)
     print()
-    option = gamefunctions.print_user_menu(username, monster)
-    while option != '1' and option != '2' and option != '3' and option != '4' and option != '5' and option != '6':
-        print('Invalid option. Please try again.')
-        option = gamefunctions.print_user_menu(username, monster)
-    while option != '6':
-        if option == '1':
-            monster = gamefunctions.fight_monster(monster)
-            option = gamefunctions.print_user_menu(username, monster)
-        elif option == '2':
-            monster = gamefunctions.sleep(monster)
-            option = gamefunctions.print_user_menu(username, monster)
-        elif option == '3':
-            monster = gamefunctions.shop_menu(monster)
-            option = gamefunctions.print_user_menu(username, monster)
-        elif option == '4':
-            gamefunctions.view_inventory(monster)
-            option = gamefunctions.print_user_menu(username, monster)
-        elif option == '5':
-            gamefunctions.save_game(monster, username)
-            option = gamefunctions.print_user_menu(username, monster)
-        else:
-            print('Invalid option. Please try again.')
-            option = gamefunctions.print_user_menu(username, monster)
-    print('Goodbye! Thanks for playing!')
+    print('Press \'m\' to access the game menu.')
+    print('Press \'q\' to quit the game.')
+    print()
+    running = True
+    enemies = [gameGraphics.WanderingMonster()]
+    while running:
+        option, enemy = gameGraphics.main(enemies)
+        if option == 'm':
+            gameGraphics.running = False
+            consoleoption = gamefunctions.print_user_menu(username, monster)
+            while consoleoption != '5':
+                if consoleoption == '1':
+                    monster = gamefunctions.sleep(monster)
+                elif consoleoption == '2':
+                    monster = gamefunctions.shop_menu(monster)
+                elif consoleoption == '3':
+                    gamefunctions.view_inventory(monster)
+                elif consoleoption == '4':
+                    gamefunctions.save_game(monster, username)
+                elif consoleoption == '0':
+                    print('Returning to game...')
+                    print()
+                    gameGraphics.running = True
+                    break
+                else:
+                    print('Invalid option. Please try again.')
+                consoleoption = gamefunctions.print_user_menu(username, monster)
+            if consoleoption == '5':
+                save = input('Would you like to save your game before quitting? (y/n): ')
+                if save == 'y':
+                    gamefunctions.save_game(monster, username)
+                running = False
+        elif option == 'f':
+            monster, enemy.data = gamefunctions.fight_monster(monster, enemy.data)
+            if enemy.data['health'] <= 0:
+                enemies = [monster for monster in enemies if id(monster) != id(enemy)]
+            if len(enemies) == 0:
+                enemies.append(gameGraphics.WanderingMonster())
+                enemies.append(gameGraphics.WanderingMonster())
 
 if __name__ == '__main__':
     game()
