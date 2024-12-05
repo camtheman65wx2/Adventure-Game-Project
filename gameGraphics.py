@@ -81,8 +81,9 @@ def draw_grid(screen):
     for y in range(0, windowSize, cellSize):
         pygame.draw.line(screen, (0,0,0), (0, y), (windowSize, y))
 
-def draw_square(screen, position, color=(255,0,0)):
+def draw_square(screen, position, type):
     """
+    color=(255,0,0)
     Draws a square on the given screen at the specified position.
 
     Arguments:
@@ -92,8 +93,23 @@ def draw_square(screen, position, color=(255,0,0)):
     Returns:
         None
     """
-    rect = pygame.Rect(position[0] * cellSize, position[1] * cellSize, cellSize, cellSize)
-    pygame.draw.rect(screen, color, rect)
+    try:
+        image = None
+        if type == 'player':
+            image = pygame.image.load('assets/player.png')
+        elif type == 'monster':
+            image = pygame.image.load('assets/monster.png')
+        pygame.transform.scale(image, (cellSize, cellSize))
+        screen.blit(image, (position[0] * cellSize, position[1] * cellSize))
+    except FileNotFoundError:
+        if type == 'player':
+            color = (0,0,0)
+        elif type == 'monster':
+            color = (255,0,0)
+        rect = pygame.Rect(position[0] * cellSize, position[1] * cellSize, cellSize, cellSize)
+        pygame.draw.rect(screen, color, rect)
+    except Exception as e:
+        print('You find yourself in a weird place. Here\'s the error we got', e)
 
 def handle_movement(key, position):
     """
@@ -156,9 +172,9 @@ def main(monsters):
 
         screen.fill((255,255,255))
         draw_grid(screen)
-        draw_square(screen, position, (0,0,255))
+        draw_square(screen, position, 'player')
         for monster in monsters:
-            draw_square(screen, monster.position)
+            draw_square(screen, monster.position, 'monster')
         pygame.display.flip()
 
     pygame.quit()
