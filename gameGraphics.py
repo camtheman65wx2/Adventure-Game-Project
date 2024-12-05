@@ -83,12 +83,12 @@ def draw_grid(screen):
 
 def draw_square(screen, position, type):
     """
-    color=(255,0,0)
     Draws a square on the given screen at the specified position.
 
     Arguments:
         screen (pygame.Surface): The game screen where the square will be drawn.
         position (list): The position [x, y] where the square will be drawn.
+        type (str): The type of square to be drawn ('player' or 'monster'). This is used to determine what asset is used.
 
     Returns:
         None
